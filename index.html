@@ -1,0 +1,4240 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./dist/main.css" />
+    <!-- ALPINE CORE -->
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"
+    ></script>
+    <title>Stein</title>
+  </head>
+  <body
+    x-data="{
+    headerSticky: false,
+    headerHeight: document.querySelector('#header').getBoundingClientRect().height,
+    }"
+  >
+    <!-- HEADER SECTION START -->
+    <header
+      id="header"
+      x-data="{
+        isOpen: false,
+        isModalOpen: false,
+        fixedHeader: true,
+        oldValue: 0,
+        newValue: 0,
+        mobileHeaderHeight: $el.getBoundingClientRect().height,
+        setMarginClass: function(){
+          document.querySelector('#header').style.marginTop = this.mobileHeaderHeight + 'px';
+        },
+        removeMarginClass: function(){
+          document.querySelector('#header').style.marginTop = 0;
+        },
+        bodyOverflowHidden(){
+          document.querySelector('body').style.overflow = 'hidden';
+        },
+        bodyOverflowVisible(){
+          document.querySelector('body').style.overflow = 'visible';
+        }
+        
+      }
+    "
+      @scroll.window="
+      newValue = window.pageYOffset;
+      if (oldValue > newValue && window.pageYOffset > mobileHeaderHeight) {
+        fixedHeader = false;
+        headerSticky = true;
+        setMarginClass();
+      }else{
+        headerSticky = false;
+        fixedHeader = true;
+        removeMarginClass();
+      }
+      oldValue = newValue;
+      "
+    >
+      <!-- HEADER MOBILE -->
+      <div
+        class="container mx-auto px-6 h-[7vh] flex flex-row items-center z-20 justify-between lg:hidden"
+        :class="{'fixed bg-white transition-all top-0 left-0 right-0' : !fixedHeader}"
+      >
+        <button
+          class="outline-none"
+          @click="
+            isOpen = true;
+            bodyOverflowHidden();
+          "
+        >
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 32 32"
+            class="hover:fill-[#4299e1]"
+          >
+            <title>menu</title>
+            <path d="M2 6h28v6h-28zM2 14h28v6h-28zM2 22h28v6h-28z"></path>
+          </svg>
+        </button>
+        <div class="text-center">
+          <a href="https://stein.rifki.net/stein/" class="text-2xl font-bold"
+            >Stein</a
+          >
+        </div>
+        <a
+          href="#"
+          @click="isModalOpen = true;
+          $nextTick(() => $refs.modalSearchbar.focus())
+          bodyOverflowHidden();
+          "
+          @keydown.escape.window="
+          isModalOpen = false;
+          bodyOverflowVisible();
+          "
+        >
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 20 20"
+          >
+            <title>search</title>
+            <path
+              d="M12.9 14.32c-1.34 1.049-3.050 1.682-4.908 1.682-4.418 0-8-3.582-8-8s3.582-8 8-8c4.418 0 8 3.582 8 8 0 1.858-0.633 3.567-1.695 4.925l0.013-0.018 5.35 5.33-1.42 1.42-5.33-5.34zM8 14c3.314 0 6-2.686 6-6s-2.686-6-6-6v0c-3.314 0-6 2.686-6 6s2.686 6 6 6v0z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <!-- HEADER DESKTOP -->
+      <div class="hidden lg:block">
+        <!-- TOP BAR -->
+        <div>
+          <div
+            class="h-14 flex flex-row items-center justify-between container mx-auto px-8 xl:px-14"
+          >
+            <nav>
+              <ul class="flex flex-row font-['roboto'] font-medium">
+                <li>
+                  <a
+                    href="#"
+                    class="text-black/80 text-xs tracking-[.05em] pr-4 hover:text-[#4299e1]"
+                    >HOME</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-black/80 text-xs tracking-[.05em] px-4 hover:text-[#4299e1]"
+                    >ADVERTISE</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-black/80 text-xs tracking-[.05em] px-4 hover:text-[#4299e1]"
+                    >ABOUT</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="text-black/80 text-xs tracking-[.05em] px-4 hover:text-[#4299e1]"
+                    >CONTACT</a
+                  >
+                </li>
+              </ul>
+            </nav>
+            <nav>
+              <ul class="flex flex-row">
+                <!-- FACEBOOK -->
+                <li class="px-4">
+                  <a href="#">
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      class="hover:fill-[#4299e1]"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>facebook-with-circle</title>
+                      <path
+                        d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM12.274 7.034h-1.443c-0.171 0-0.361 0.225-0.361 0.524v1.042h1.805l-0.273 1.486h-1.532v4.461h-1.703v-4.461h-1.545v-1.486h1.545v-0.874c0-1.254 0.87-2.273 2.064-2.273h1.443v1.581z"
+                      ></path>
+                    </svg>
+                  </a>
+                </li>
+                <!-- TWITTER -->
+                <li class="px-4">
+                  <a href="#">
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      class="hover:fill-[#4299e1]"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>twitter-with-circle</title>
+                      <path
+                        d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM13.905 8.264c0.004 0.082 0.005 0.164 0.005 0.244 0 2.5-1.901 5.381-5.379 5.381-1.068 0-2.062-0.312-2.898-0.85 0.147 0.018 0.298 0.025 0.451 0.025 0.886 0 1.701-0.301 2.348-0.809-0.827-0.016-1.525-0.562-1.766-1.312 0.115 0.021 0.233 0.033 0.355 0.033 0.172 0 0.34-0.023 0.498-0.066-0.865-0.174-1.517-0.938-1.517-1.854v-0.023c0.255 0.141 0.547 0.227 0.857 0.237-0.508-0.34-0.841-0.918-0.841-1.575 0-0.346 0.093-0.672 0.256-0.951 0.933 1.144 2.325 1.896 3.897 1.977-0.033-0.139-0.049-0.283-0.049-0.432 0-1.043 0.846-1.891 1.891-1.891 0.543 0 1.035 0.23 1.38 0.598 0.431-0.086 0.835-0.242 1.2-0.459-0.141 0.441-0.44 0.812-0.831 1.047 0.383-0.047 0.747-0.148 1.086-0.299-0.253 0.379-0.574 0.713-0.943 0.979z"
+                      ></path>
+                    </svg>
+                  </a>
+                </li>
+                <!-- INSTAGRAM -->
+                <li class="px-4">
+                  <a href="#">
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      class="hover:fill-[#4299e1]"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>instagram-with-circle</title>
+                      <path
+                        d="M13 10c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-0.171 0.018-0.338 0.049-0.5h-1.049v3.997c0 0.278 0.225 0.503 0.503 0.503h6.995c0.277 0 0.502-0.225 0.502-0.503v-3.997h-1.049c0.031 0.162 0.049 0.329 0.049 0.5zM10 12c1.104 0 2-0.896 2-2s-0.896-2-2-2-2 0.896-2 2 0.896 2 2 2zM12.4 7.9h1.199c0.166 0 0.301-0.135 0.301-0.3v-1.199c0-0.166-0.135-0.301-0.301-0.301h-1.199c-0.166 0-0.301 0.135-0.301 0.301v1.199c0.001 0.165 0.136 0.3 0.301 0.3zM10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.302 0 9.6-4.298 9.6-9.6s-4.298-9.6-9.6-9.6zM15 13.889c0 0.611-0.5 1.111-1.111 1.111h-7.778c-0.611 0-1.111-0.5-1.111-1.111v-7.778c0-0.611 0.5-1.111 1.111-1.111h7.778c0.611 0 1.111 0.5 1.111 1.111v7.778z"
+                      ></path>
+                    </svg>
+                  </a>
+                </li>
+                <!-- YOUTUBE -->
+                <li class="px-4">
+                  <a href="#">
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      class="hover:fill-[#4299e1]"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>youtube-with-circle</title>
+                      <path
+                        d="M11.603 9.833l-2.246-1.048c-0.196-0.091-0.357 0.011-0.357 0.228v1.974c0 0.217 0.161 0.319 0.357 0.228l2.245-1.048c0.197-0.092 0.197-0.242 0.001-0.334zM10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM10 13.9c-4.914 0-5-0.443-5-3.9s0.086-3.9 5-3.9 5 0.443 5 3.9-0.086 3.9-5 3.9z"
+                      ></path>
+                    </svg>
+                  </a>
+                </li>
+                <!-- LINKEDIN -->
+                <li class="pl-4">
+                  <a href="#">
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      class="hover:fill-[#4299e1]"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>linkedin-with-circle</title>
+                      <path
+                        d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM7.65 13.979h-1.944v-6.256h1.944v6.256zM6.666 6.955c-0.614 0-1.011-0.435-1.011-0.973 0-0.549 0.409-0.971 1.036-0.971s1.011 0.422 1.023 0.971c0 0.538-0.396 0.973-1.048 0.973zM14.75 13.979h-1.944v-3.467c0-0.807-0.282-1.355-0.985-1.355-0.537 0-0.856 0.371-0.997 0.728-0.052 0.127-0.065 0.307-0.065 0.486v3.607h-1.945v-4.26c0-0.781-0.025-1.434-0.051-1.996h1.689l0.089 0.869h0.039c0.256-0.408 0.883-1.010 1.932-1.010 1.279 0 2.238 0.857 2.238 2.699v3.699z"
+                      ></path>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- HEADER NAVIGATION -->
+        <div
+          class="bg-zinc-50 transition-all z-20"
+          :class="{'fixed transition-all top-0 left-0 right-0' : !fixedHeader}"
+        >
+          <div class="h-24 container mx-auto px-8 xl:px-14">
+            <div
+              class="flex flex-row items-center justify-between w-full h-full relative"
+            >
+              <!-- BRAND NAME -->
+              <div class="text-center">
+                <a
+                  href="https://stein.rifki.net/stein/"
+                  class="text-3xl font-bold hover:opacity-70"
+                  >Stein</a
+                >
+              </div>
+              <!-- MENU ITEMS -->
+              <nav class="h-full">
+                <ul class="flex flex-row h-full font-['roboto'] font-medium">
+                  <li class="flex p-4 relative group">
+                    <a
+                      href="#"
+                      class="group flex flex-row items-center gap-x-2"
+                    >
+                      <span class="group-hover:text-[#4299e1]">Demos</span>
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        class="group-hover:fill-[#4299e1]"
+                        viewBox="0 0 20 20"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </a>
+                    <span
+                      class="absolute top-full left-1/2 -translate-x-1/2 mt-3 -translate-y-full hidden group-hover:block"
+                    >
+                      <img
+                        src="images/iconmonstr-triangle-1.svg"
+                        class="block"
+                        alt="triangle-up"
+                      />
+                    </span>
+                    <ul
+                      class="bg-[#222225] text-white absolute top-full z-10 -ml-6 py-4 hidden group-hover:block"
+                    >
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Stein
+                          <span
+                            class="bg-[#4299e1] text-white ml-2 text-xs py-0.5 px-2 rounded-full"
+                            >Current</span
+                          >
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Rosenstein
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Scienstein
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="flex p-4 relative"
+                    x-data="{isDropDownOpen: false}"
+                    @mouseleave="isDropDownOpen = false"
+                  >
+                    <a
+                      href="#"
+                      class="group flex flex-row items-center gap-x-2"
+                      @mouseover="isDropDownOpen = true"
+                    >
+                      <span class="group-hover:text-[#4299e1]">Features</span>
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        class="group-hover:fill-[#4299e1]"
+                        viewBox="0 0 20 20"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </a>
+                    <span
+                      class="absolute top-full left-1/2 -translate-x-1/2 mt-3 -translate-y-full"
+                      x-show="isDropDownOpen"
+                    >
+                      <img
+                        src="images/iconmonstr-triangle-1.svg"
+                        class="block"
+                        alt="triangle-up"
+                      />
+                    </span>
+                    <ul
+                      class="bg-[#222225] text-white absolute top-full z-10 -ml-6 py-4"
+                      x-show="isDropDownOpen"
+                    >
+                      <li class="group relative">
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm min-w-[12rem] flex-row items-center justify-between"
+                        >
+                          <span class="group-hover:text-[#4299e1]"
+                            >Sidebar</span
+                          >
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            class="group-hover:fill-[#4299e1] fill-white"
+                            viewBox="0 0 20 20"
+                          >
+                            <title>chevron-down</title>
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            ></path>
+                          </svg>
+                        </a>
+                        <ul
+                          class="bg-[#222225] text-white absolute left-full top-0 z-10 py-4 -mt-4 hidden group-hover:block"
+                        >
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              Left Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              Right Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              No Sidebar
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="group relative">
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm min-w-[12rem] flex-row items-center justify-between"
+                        >
+                          <span class="group-hover:text-[#4299e1]"
+                            >Single Post</span
+                          >
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            class="group-hover:fill-[#4299e1] fill-white"
+                            viewBox="0 0 20 20"
+                          >
+                            <title>chevron-down</title>
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            ></path>
+                          </svg>
+                        </a>
+                        <ul
+                          class="bg-[#222225] text-white absolute left-full top-0 z-10 py-4 -mt-4 hidden group-hover:block"
+                        >
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              Left Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              Right Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              No Sidebar
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="group relative">
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm min-w-[12rem] flex-row items-center justify-between"
+                        >
+                          <span class="group-hover:text-[#4299e1]"
+                            >Navigation</span
+                          >
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            class="group-hover:fill-[#4299e1] fill-white"
+                            viewBox="0 0 20 20"
+                          >
+                            <title>chevron-down</title>
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            ></path>
+                          </svg>
+                        </a>
+                        <ul
+                          class="bg-[#222225] text-white absolute left-full top-0 z-10 py-4 -mt-4 hidden group-hover:block"
+                        >
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              Left Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              Right Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                            >
+                              No Sidebar
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Post Video
+                          <span
+                            class="bg-red-400 text-white ml-2 text-xs py-0.5 px-2 rounded-full"
+                            >Hot</span
+                          >
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Author Page
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Error 404
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Category Page
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-6 py-2 text-sm hover:text-[#4299e1] min-w-[12rem]"
+                        >
+                          Search Page
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="flex p-4"
+                    x-data="{isDropDownOpen: false}"
+                    @mouseleave="isDropDownOpen = false"
+                  >
+                    <a
+                      href="#"
+                      class="group flex flex-row items-center gap-x-2 relative"
+                      @mouseover="isDropDownOpen = true"
+                    >
+                      <span class="group-hover:text-[#4299e1]">Categories</span>
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        class="group-hover:fill-[#4299e1]"
+                        viewBox="0 0 20 20"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                      <span
+                        class="absolute top-full mt-1 left-1/2 -translate-x-1/2"
+                        x-show="isDropDownOpen"
+                      >
+                        <img
+                          src="images/iconmonstr-triangle-1.svg"
+                          class="block"
+                          alt="triangle-up"
+                        />
+                      </span>
+                    </a>
+
+                    <div
+                      class="absolute top-full bg-[#222225] w-full left-0 z-10"
+                      x-show="isDropDownOpen"
+                    >
+                      <!-- SHOWCASE -->
+                      <div class="flex" x-data="{showcase : 'showcase1'}">
+                        <!-- SHOWCASE LIST -->
+                        <ul
+                          class="text-white py-8 border-r border-white/10 flex flex-col w-1/5"
+                        >
+                          <li class="group">
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm flex-row items-center justify-between"
+                              @mouseenter="showcase = 'showcase1'"
+                            >
+                              <span class="group-hover:text-[#4299e1]"
+                                >Entertainment</span
+                              >
+                            </a>
+                          </li>
+                          <li class="group">
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm flex-row items-center justify-between"
+                              @mouseenter="showcase = 'showcase2'"
+                            >
+                              <span class="group-hover:text-[#4299e1]"
+                                >Lifestyle</span
+                              >
+                            </a>
+                          </li>
+                          <li class="group">
+                            <a
+                              href="#"
+                              class="flex px-6 py-2 text-sm flex-row items-center justify-between"
+                              @mouseenter="showcase = 'showcase3'"
+                            >
+                              <span class="group-hover:text-[#4299e1]"
+                                >Travel</span
+                              >
+                            </a>
+                          </li>
+                        </ul>
+                        <!-- SHOWCASE CONTENT -->
+                        <!-- SHOWCASE 1 -->
+                        <div
+                          class="w-full p-8"
+                          x-show="showcase === 'showcase1'"
+                        >
+                          <!-- SHOWCASE CARDS -->
+                          <div class="flex flex-wrap w-full mb-2">
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-1.jpg"
+                                    alt="showcase-img-1"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    Podcast Protocol: How to Interview Someone
+                                    for a Podcast
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 23, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-2.jpg"
+                                    alt="showcase-img-2"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    The 10 Best Disney Channel Stars Turned Pop
+                                    Singers
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 21, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-3.jpg"
+                                    alt="showcase-img-3"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    The History of Jazz in Ten 7-Inch Vinyl
+                                    Records
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 20, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-4.jpg"
+                                    alt="showcase-img-4"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    How to make Every Second Count at A Music
+                                    Festival
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 18, 2019
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- SHOWCASE 2 -->
+                        <div
+                          class="w-full p-8"
+                          x-show="showcase === 'showcase2'"
+                        >
+                          <!-- SHOWCASE CARDS -->
+                          <div class="flex flex-wrap w-full mb-2">
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-3.jpg"
+                                    alt="showcase-img-3"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    The Real Reason Why Money Can’t Buy You
+                                    Freedom
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 06, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-4.jpg"
+                                    alt="showcase-img-4"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    10 Eating Habits That Rewire Your Brain for
+                                    Success
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 21, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-1.jpg"
+                                    alt="showcase-img-1"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    The Powerful Link Between Sleep and
+                                    Performance
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 12, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-2.jpg"
+                                    alt="showcase-img-2"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    Setting Running Goals in The Blistering
+                                    Summer Heat
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 30, 2019
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- SHOWCASE 3 -->
+                        <div
+                          class="w-full p-8"
+                          x-show="showcase === 'showcase3'"
+                        >
+                          <!-- SHOWCASE CARDS -->
+                          <div class="flex flex-wrap w-full mb-2">
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-2.jpg"
+                                    alt="showcase-img-2"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    Australian Travel Advice: 10 Important
+                                    Things To Know
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 22, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-3.jpg"
+                                    alt="showcase-img-3"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    Where to Find Real Mexican-American Food in
+                                    San Antonio
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 11, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-4.jpg"
+                                    alt="showcase-img-4"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    How to Protect Your Data on Business Trips
+                                    and Vacations
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 02, 2019
+                                </div>
+                              </div>
+                            </div>
+                            <div class="px-4 w-1/4 h-auto">
+                              <div class="aspect-video mb-4">
+                                <a href="#">
+                                  <img
+                                    src="images/showcase-img-1.jpg"
+                                    alt="showcase-img-1"
+                                    loading="lazy"
+                                    class="w-full h-full object-cover"
+                                  />
+                                </a>
+                              </div>
+                              <div>
+                                <h2
+                                  class="text-sm font-bold text-white leading-4 tracking-normal font-['IBM'] hover:opacity-75"
+                                >
+                                  <a href="#" class="">
+                                    Quirky Small Towns in California to Visit
+                                    This Summer
+                                  </a>
+                                </h2>
+                                <div class="mt-3 text-sm text-white/50">
+                                  May 11, 2019
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="flex p-4 items-center">
+                    <a href="#" class="hover:text-[#4299e1]">Lifestyle</a>
+                  </li>
+                  <li class="flex p-4 items-center">
+                    <a href="#" class="hover:text-[#4299e1]">Travel</a>
+                  </li>
+                  <li class="flex p-4 items-center">
+                    <a href="#" class="hover:text-[#4299e1]">Contact</a>
+                  </li>
+                  <li class="flex p-4 items-center">
+                    <a href="#" class="hover:text-[#4299e1]">
+                      Purchase
+                      <span
+                        class="bg-[#4299e1] text-white leading-3 ml-2 text-xs py-1 px-2 rounded-full"
+                        >$49</span
+                      >
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <!-- SEARCH AND SIDEBAR BUTTONS -->
+              <div>
+                <button
+                  class="outline-none"
+                  @click="
+                  isModalOpen = true;
+                  $nextTick(() => $refs.modalSearchbar.focus());
+                  bodyOverflowHidden();
+                "
+                  @keydown.escape.window="
+                  isModalOpen = false;
+                  bodyOverflowVisible();
+                  "
+                >
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>search</title>
+                    <path
+                      d="M12.9 14.32c-1.34 1.049-3.050 1.682-4.908 1.682-4.418 0-8-3.582-8-8s3.582-8 8-8c4.418 0 8 3.582 8 8 0 1.858-0.633 3.567-1.695 4.925l0.013-0.018 5.35 5.33-1.42 1.42-5.33-5.34zM8 14c3.314 0 6-2.686 6-6s-2.686-6-6-6v0c-3.314 0-6 2.686-6 6s2.686 6 6 6v0z"
+                    ></path>
+                  </svg>
+                </button>
+                <button
+                  class="outline-none ml-8"
+                  @click="
+                    isOpen = true;
+                    bodyOverflowHidden();
+                  "
+                >
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 32 32"
+                  >
+                    <title>menu</title>
+                    <path
+                      d="M2 6h28v6h-28zM2 14h28v6h-28zM2 22h28v6h-28z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SIDEBAR START -->
+      <aside
+        class="fixed inset-0 z-30 bg-black/40 lg:bg-transparent"
+        x-show="isOpen"
+      >
+        <div
+          class="flex flex-col max-w-xs md:max-w-sm bg-white h-full"
+          x-show="isOpen"
+          x-transition:enter="transition ease-out duration-300 -ml-96"
+          x-transition:enter-start=""
+          x-transition:enter-end="transform translate-x-96"
+          x-transition:leave="transition ease-out duration-300"
+          x-transition:leave-start=""
+          x-transition:leave-end="transform -translate-x-96"
+          @click.away="
+          isOpen = false;
+          bodyOverflowVisible();
+          "
+        >
+          <!-- BRAND NAME -->
+          <div
+            class="h-20 px-8 shrink-0 flex flex-row items-center border-b w-full"
+          >
+            <a href="https://stein.rifki.net/stein/" class="text-3xl font-bold"
+              >Stein</a
+            >
+          </div>
+          <div class="overflow-x-hidden overflow-y-auto p-6 md:p-8">
+            <!-- CATEGORIES -->
+            <div class="mb-8 hidden lg:block">
+              <div class="mb-5">
+                <h3 class="text-xl font-bold">Categories</h3>
+              </div>
+              <ul class="font-['roboto']">
+                <li class="flex items-center justify-between mb-3">
+                  <a
+                    href="#"
+                    class="hover:text-[#4299e1] tracking-normal font-normal opacity-60 text-base"
+                    >Entertainment</a
+                  >
+                  <span
+                    class="bg-zinc-100 leading-3 ml-2 text-sm py-1 px-2 rounded-full flex items-center justify-center"
+                    >7</span
+                  >
+                </li>
+                <li class="flex items-center justify-between mb-3">
+                  <a
+                    href="#"
+                    class="hover:text-[#4299e1] tracking-normal font-normal opacity-60 text-base"
+                    >Lifestyle</a
+                  >
+                  <span
+                    class="bg-zinc-100 leading-3 ml-2 text-sm py-1 px-2 rounded-full flex items-center justify-center"
+                    >10</span
+                  >
+                </li>
+                <li class="flex items-center justify-between mb-3">
+                  <a
+                    href="#"
+                    class="hover:text-[#4299e1] tracking-normal font-normal opacity-60 text-base"
+                    >Travel</a
+                  >
+                  <span
+                    class="bg-zinc-100 leading-3 ml-2 text-sm py-1 px-2 rounded-full flex items-center justify-center"
+                    >7</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <!-- Newsletter -->
+            <div class="mb-8 hidden lg:block">
+              <div class="mb-5">
+                <h3 class="text-xl font-bold">Newsletter</h3>
+              </div>
+              <div class="font-['roboto'] mb-5">
+                <p class="tracking-normal font-normal opacity-60 text-base">
+                  Subscribe to our newsletter and get our newest updates right
+                  on your inbox.
+                </p>
+              </div>
+              <div class="font-['roboto'] mb-5">
+                <form>
+                  <input
+                    type="text"
+                    placeholder="Your email address"
+                    class="w-full opacity-60 py-2 px-4 border mb-4"
+                  />
+                  <span class="mb-4 block">
+                    <input
+                      type="checkbox"
+                      name="terms"
+                      id="checkbox"
+                      class="mr-2"
+                    />
+                    <a
+                      href="#"
+                      class="opacity-50 text-sm hover:text-[#4299e1] hover:underline"
+                      >I agree to the terms & conditions</a
+                    >
+                  </span>
+                  <div class="mb-4">
+                    <button
+                      type="submit"
+                      class="bg-[#4299e1] text-white uppercase text-sm w-full py-3 hover:opacity-70"
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- MOBILE MENU SIDEBAR -->
+            <div class="mb-6 md:mb-8 lg:hidden">
+              <div class="-mx-6 md:-mx-8">
+                <ul class="font-['roboto']">
+                  <li x-data="{dropDown : false}">
+                    <a
+                      href="#"
+                      class="px-8 py-3 border-l-4 border-[#4299e1] flex flex-row items-center justify-between group"
+                      @click="dropDown = !dropDown"
+                    >
+                      <span
+                        class="group-hover:text-[#4299e1] text-[#4299e1]"
+                        :class="{'!text-[#4299e1] transition-all' : dropDown}"
+                        >Demos</span
+                      >
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        class="group-hover:fill-[#4299e1] fill-[#4299e1] transition-all"
+                        :class="{'rotate-180 transition-all !fill-[#4299e1]' : dropDown,
+                                 'rotate-0 transition-all' : !dropDown}"
+                        viewBox="0 0 20 20"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </a>
+                    <ul x-show="dropDown">
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Stein
+                          <span
+                            class="bg-[#4299e1] text-white ml-2 text-xs py-1 px-2 rounded-full"
+                            >Current</span
+                          >
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Rosenstein
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Scienstein
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li x-data="{dropDown : false}">
+                    <a
+                      href="#"
+                      class="px-8 py-3 border-l-4 border-transparent hover:border-[#4299e1] flex flex-row items-center justify-between group"
+                      @click="dropDown = !dropDown"
+                      :class="{'!border-[#4299e1] transition-all' : dropDown}"
+                    >
+                      <span
+                        class="group-hover:text-[#4299e1]"
+                        :class="{'!text-[#4299e1] transition-all' : dropDown}"
+                        >Features</span
+                      >
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        class="group-hover:fill-[#4299e1]"
+                        :class="{'rotate-180 transition-all !fill-[#4299e1]' : dropDown,
+                                 'rotate-0 transition-all' : !dropDown}"
+                        viewBox="0 0 20 20"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </a>
+                    <ul x-show="dropDown">
+                      <li x-data="{subDropDown : false}">
+                        <a
+                          href="#"
+                          class="px-8 py-3 border-l-4 border-transparent flex flex-row items-center justify-between group"
+                          @click="subDropDown = !subDropDown"
+                        >
+                          <span
+                            class="group-hover:text-[#4299e1]"
+                            :class="{'!text-[#4299e1] transition-all' : subDropDown}"
+                            >Sidebar</span
+                          >
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            class="group-hover:fill-[#4299e1]"
+                            :class="{'rotate-180 transition-all !fill-[#4299e1]' : subDropDown,
+                                 'rotate-0 transition-all' : !subDropDown}"
+                            viewBox="0 0 20 20"
+                          >
+                            <title>chevron-down</title>
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            ></path>
+                          </svg>
+                        </a>
+                        <ul class="pl-6" x-show="subDropDown">
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                            >
+                              Left Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                            >
+                              Right Sidebar
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                            >
+                              No Sidebar
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="px-8 py-3 border-l-4 border-transparent flex flex-row items-center justify-between group"
+                        >
+                          <span class="group-hover:text-[#4299e1]"
+                            >Single Post</span
+                          >
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            class="group-hover:fill-[#4299e1]"
+                            viewBox="0 0 20 20"
+                          >
+                            <title>chevron-down</title>
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            ></path>
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="px-8 py-3 border-l-4 border-transparent flex flex-row items-center justify-between group"
+                        >
+                          <span class="group-hover:text-[#4299e1]"
+                            >Navigation</span
+                          >
+                          <svg
+                            version="1.1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            class="group-hover:fill-[#4299e1]"
+                            viewBox="0 0 20 20"
+                          >
+                            <title>chevron-down</title>
+                            <path
+                              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                            ></path>
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Post Video
+                          <span
+                            class="bg-red-400 text-white ml-2 text-xs py-1 px-2 rounded-full"
+                            >Hot</span
+                          >
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Author Page
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Error 404
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Category Page
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Search Page
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li x-data="{dropDown : false}">
+                    <a
+                      href="#"
+                      class="px-8 py-3 border-l-4 border-transparent hover:border-[#4299e1] flex flex-row items-center justify-between group"
+                      @click="dropDown = !dropDown"
+                      :class="{'!border-[#4299e1] transition-all' : dropDown}"
+                    >
+                      <span
+                        class="group-hover:text-[#4299e1]"
+                        :class="{'!text-[#4299e1] transition-all' : dropDown}"
+                        >Categories</span
+                      >
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        class="group-hover:fill-[#4299e1]"
+                        :class="{'rotate-180 transition-all !fill-[#4299e1]' : dropDown,
+                                 'rotate-0 transition-all' : !dropDown}"
+                        viewBox="0 0 20 20"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </a>
+                    <ul x-show="dropDown">
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Entertainment
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Lifestyle
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex px-8 py-3 border-l-4 border-transparent hover:text-[#4299e1]"
+                        >
+                          Travel
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="flex px-8 py-3 border-l-4 border-transparent hover:border-[#4299e1] hover:text-[#4299e1]"
+                    >
+                      Lifestyle
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="flex px-8 py-3 border-l-4 border-transparent hover:border-[#4299e1] hover:text-[#4299e1]"
+                    >
+                      Travel
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="flex px-8 py-3 border-l-4 border-transparent hover:border-[#4299e1] hover:text-[#4299e1]"
+                    >
+                      Contact
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="flex px-8 py-3 border-l-4 border-transparent hover:border-[#4299e1] hover:text-[#4299e1]"
+                    >
+                      Purchase
+                      <span
+                        class="bg-[#4299e1] text-white ml-2 text-xs py-1 px-2 rounded-full"
+                        >$49</span
+                      >
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- SOCIAL MENU -->
+          <nav class="px-4 py-5 mt-auto">
+            <ul class="flex flex-row justify-between">
+              <!-- FACEBOOK -->
+              <li class="px-4">
+                <a href="#">
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>facebook-with-circle</title>
+                    <path
+                      d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM12.274 7.034h-1.443c-0.171 0-0.361 0.225-0.361 0.524v1.042h1.805l-0.273 1.486h-1.532v4.461h-1.703v-4.461h-1.545v-1.486h1.545v-0.874c0-1.254 0.87-2.273 2.064-2.273h1.443v1.581z"
+                    ></path>
+                  </svg>
+                </a>
+              </li>
+              <!-- TWITTER -->
+              <li class="px-4">
+                <a href="#">
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>twitter-with-circle</title>
+                    <path
+                      d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM13.905 8.264c0.004 0.082 0.005 0.164 0.005 0.244 0 2.5-1.901 5.381-5.379 5.381-1.068 0-2.062-0.312-2.898-0.85 0.147 0.018 0.298 0.025 0.451 0.025 0.886 0 1.701-0.301 2.348-0.809-0.827-0.016-1.525-0.562-1.766-1.312 0.115 0.021 0.233 0.033 0.355 0.033 0.172 0 0.34-0.023 0.498-0.066-0.865-0.174-1.517-0.938-1.517-1.854v-0.023c0.255 0.141 0.547 0.227 0.857 0.237-0.508-0.34-0.841-0.918-0.841-1.575 0-0.346 0.093-0.672 0.256-0.951 0.933 1.144 2.325 1.896 3.897 1.977-0.033-0.139-0.049-0.283-0.049-0.432 0-1.043 0.846-1.891 1.891-1.891 0.543 0 1.035 0.23 1.38 0.598 0.431-0.086 0.835-0.242 1.2-0.459-0.141 0.441-0.44 0.812-0.831 1.047 0.383-0.047 0.747-0.148 1.086-0.299-0.253 0.379-0.574 0.713-0.943 0.979z"
+                    ></path>
+                  </svg>
+                </a>
+              </li>
+              <!-- INSTAGRAM -->
+              <li class="px-4">
+                <a href="#">
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>instagram-with-circle</title>
+                    <path
+                      d="M13 10c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-0.171 0.018-0.338 0.049-0.5h-1.049v3.997c0 0.278 0.225 0.503 0.503 0.503h6.995c0.277 0 0.502-0.225 0.502-0.503v-3.997h-1.049c0.031 0.162 0.049 0.329 0.049 0.5zM10 12c1.104 0 2-0.896 2-2s-0.896-2-2-2-2 0.896-2 2 0.896 2 2 2zM12.4 7.9h1.199c0.166 0 0.301-0.135 0.301-0.3v-1.199c0-0.166-0.135-0.301-0.301-0.301h-1.199c-0.166 0-0.301 0.135-0.301 0.301v1.199c0.001 0.165 0.136 0.3 0.301 0.3zM10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.302 0 9.6-4.298 9.6-9.6s-4.298-9.6-9.6-9.6zM15 13.889c0 0.611-0.5 1.111-1.111 1.111h-7.778c-0.611 0-1.111-0.5-1.111-1.111v-7.778c0-0.611 0.5-1.111 1.111-1.111h7.778c0.611 0 1.111 0.5 1.111 1.111v7.778z"
+                    ></path>
+                  </svg>
+                </a>
+              </li>
+              <!-- YOUTUBE -->
+              <li class="px-4">
+                <a href="#">
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>youtube-with-circle</title>
+                    <path
+                      d="M11.603 9.833l-2.246-1.048c-0.196-0.091-0.357 0.011-0.357 0.228v1.974c0 0.217 0.161 0.319 0.357 0.228l2.245-1.048c0.197-0.092 0.197-0.242 0.001-0.334zM10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM10 13.9c-4.914 0-5-0.443-5-3.9s0.086-3.9 5-3.9 5 0.443 5 3.9-0.086 3.9-5 3.9z"
+                    ></path>
+                  </svg>
+                </a>
+              </li>
+              <!-- LINKEDIN -->
+              <li class="px-4">
+                <a href="#">
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="hover:fill-[#4299e1]"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>linkedin-with-circle</title>
+                    <path
+                      d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM7.65 13.979h-1.944v-6.256h1.944v6.256zM6.666 6.955c-0.614 0-1.011-0.435-1.011-0.973 0-0.549 0.409-0.971 1.036-0.971s1.011 0.422 1.023 0.971c0 0.538-0.396 0.973-1.048 0.973zM14.75 13.979h-1.944v-3.467c0-0.807-0.282-1.355-0.985-1.355-0.537 0-0.856 0.371-0.997 0.728-0.052 0.127-0.065 0.307-0.065 0.486v3.607h-1.945v-4.26c0-0.781-0.025-1.434-0.051-1.996h1.689l0.089 0.869h0.039c0.256-0.408 0.883-1.010 1.932-1.010 1.279 0 2.238 0.857 2.238 2.699v3.699z"
+                    ></path>
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+      <!-- SIDEBAR END -->
+      <!-- SEARCH MODAL START -->
+      <div
+        class="fixed z-30 inset-0 bg-black/90 flex justify-center items-center"
+        x-show="isModalOpen"
+        x-transition.opacity
+      >
+        <div
+          class="container max-w-lg lg:max-w-3xl m-auto px-6 font-['roboto']"
+        >
+          <form class="w-full">
+            <input
+              type="search"
+              name="search"
+              id="search"
+              placeholder="Search..."
+              autocomplete="off"
+              class="block w-full bg-transparent text-white border-b-2 border-white px-0 py-2 text-2xl outline-none border-accent mb-2 focus:border-[#4299e1]"
+              x-ref="modalSearchbar"
+            />
+            <p class="text-sm text-right font-medium text-white/70">
+              Hit enter to search or ESC to close.
+            </p>
+          </form>
+        </div>
+      </div>
+      <!-- SEARCH MODAL END -->
+    </header>
+    <!-- HEADER SECTION END -->
+    <!-- HERO SECTION START -->
+    <section
+      x-data="{
+      slide: 'slide1',
+      timerInt: '',
+      touchstartX: 0,
+      touchstartY: 0,
+      touchendX: 0,
+      touchendY: 0,
+      handleGesture: function(){
+         if (this.touchendX < this.touchstartX) {
+          this.timer();
+          }
+          if (this.touchendX > this.touchstartX) {
+          this.timer();
+          }
+      },
+      timer: function(){
+        if (this.slide === 'slide1') {
+              this.slide = 'slide2'
+        }else{
+              this.slide = 'slide1'
+           }
+      },
+      sliderIntervel: function(){
+        this.timerInt = setInterval(() => {
+          this.timer();
+        }, 10000);
+      }
+      }"
+    >
+      <!-- copy -->
+      <div
+        class="bg-no-repeat bg-cover bg-center flex justify-center items-center transition-all duration-500"
+        :class="slide === 'slide1' ? `bg-[url('../images/hero-img-2.jpg')]` : `bg-[url('../images/hero-img-1.jpg')]`"
+        @mousedown.passive="
+          touchstartY = $event.screenY;
+          touchstartX = $event.screenX;
+        "
+        @touchstart.passive="
+          touchstartX = $event.changedTouches[0].screenX;
+          touchstartY = $event.changedTouches[0].screenY;
+        "
+        @mouseup.passive="
+          touchendX = $event.screenX;
+          touchendY = $event.screenY;
+          clearInterval(timerInt);
+          sliderIntervel();
+          handleGesture();
+        "
+        @touchend.passive="
+          touchendX = $event.changedTouches[0].screenX;
+          touchendY = $event.changedTouches[0].screenY;
+          clearInterval(timerInt);
+          sliderIntervel();
+          handleGesture();
+        "
+      >
+        <div class="h-[93vh] lg:h-full w-full bg-black/30">
+          <div
+            class="container px-8 xl:px-14 h-full relative py-10 lg:py-14 mx-auto"
+          >
+            <div class="flex h-full">
+              <div class="flex-1 flex flex-col">
+                <!-- FEATURED -->
+                <div
+                  class="text-base text-strong mb-10 font-['roboto'] text-white"
+                >
+                  <span
+                    class="w-10 h-10 bg-[#4299e1] inline-flex items-center justify-center"
+                    x-show="slide === 'slide1'"
+                    >01</span
+                  >
+                  <span
+                    class="w-10 h-10 bg-[#4299e1] inline-flex items-center justify-center"
+                    x-show="slide === 'slide2'"
+                    >02</span
+                  >
+                  <span class="ml-1">— Featured</span>
+                </div>
+                <!-- HERO CONTENT -->
+                <div
+                  class="lg:pr-10 mb-8 lg:mb-14 mt-auto overflow-hidden relative"
+                  x-init="
+                  sliderIntervel();
+                 "
+                >
+                  <!-- CONTENT 1 -->
+                  <div
+                    class="transition-all duration-500 absolute"
+                    :class="{'-translate-y-10 opacity-0 invisible' : slide === 'slide2'}"
+                  >
+                    <!-- META DESCRIPTION -->
+                    <div
+                      class="text-xs text-strong mb-4 font-['roboto'] text-white uppercase"
+                    >
+                      Lifestyle
+                    </div>
+                    <!-- HERO HEADING -->
+                    <h1
+                      class="text-3xl leading-tight lg:text-[42px] font-bold text-white mb-0 hover:opacity-75"
+                    >
+                      <a href="#"
+                        >Physical Exercise to Boost Your Brain and Stamina
+                      </a>
+                    </h1>
+                    <!-- POST META -->
+                    <div class="text-sm mt-5 text-white/70 font-['roboto']">
+                      <!-- AUTHOR -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-white/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        <span>By</span>
+                        <a href="#" class="text-white hover:text-[#4299e1]"
+                          >Elijah Stein</a
+                        >
+                      </span>
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-white/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 02, 2019
+                      </span>
+                      <!-- STATS -->
+                      <span> 2.4K views </span>
+                    </div>
+                  </div>
+                  <!-- CONTENT 2 -->
+                  <div
+                    class="transition-all duration-500"
+                    :class="{'translate-y-10 opacity-0 invisible' : slide === 'slide1'}"
+                  >
+                    <!-- META DESCRIPTION -->
+                    <div
+                      class="text-xs text-strong mb-4 font-['roboto'] text-white uppercase"
+                    >
+                      Travel
+                    </div>
+                    <!-- HERO HEADING -->
+                    <h1
+                      class="text-3xl leading-tight lg:text-[42px] font-bold text-white mb-0 hover:opacity-75"
+                    >
+                      <a href="#">
+                        Colors & Sound of San Miguel de Allende, Mexico
+                      </a>
+                    </h1>
+                    <!-- POST META -->
+                    <div class="text-sm mt-5 text-white/70 font-['roboto']">
+                      <!-- AUTHOR -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-white/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        <span>By</span>
+                        <a href="#" class="text-white hover:text-[#4299e1]"
+                          >Elijah Stein</a
+                        >
+                      </span>
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-white/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        April 28, 2020
+                      </span>
+                      <!-- STATS -->
+                      <span> 9.4K views </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- HERO PAGINATION -->
+                <div class="container mx-auto">
+                  <div class="flex gap-x-2">
+                    <span
+                      class="w-2 h-2 rounded-full bg-white cursor-pointer"
+                      @click="
+                      slide = 'slide1';
+                      clearInterval(timerInt);
+                      sliderIntervel();
+                      "
+                      :class="{'!bg-white/50 translate-x-0' : slide !== 'slide1'}"
+                    ></span>
+                    <span
+                      class="w-2 h-2 rounded-full bg-white cursor-pointer"
+                      @click="
+                      slide = 'slide2'
+                      clearInterval(timerInt);
+                      sliderIntervel();
+                      "
+                      :class="{'!bg-white/50 translate-x-0' : slide !== 'slide2'}"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+              <!-- LATEST POSTS (WHAT'S HOT) -->
+              <div
+                class="w-1/3 px-4 hidden lg:block"
+                x-data="{
+                  currSlide: 0,
+                  maxSlide: Math.ceil($refs.VertSlider.children.length / 4),
+                  thumbnailHeight: $refs.thumbnailHeight.getBoundingClientRect().height,
+                  nextSlide(){
+                    if(this.currSlide === this.maxSlide - 1){
+                      this.currSlide = 0;
+                      $refs.VertSliderContainer.style.transform = `translateY(-${this.currSlide * 100}%)`;
+                    } else{
+                      this.currSlide++;
+                      $refs.VertSliderContainer.style.transform = `translateY(-${this.currSlide * 100}%)`;
+                    }
+                  },
+                  prevSlide(){
+                    if (this.currSlide === 0) {
+                      this.currSlide = this.maxSlide - 1;
+                      console.log(this.currSlide * 100)
+                      $refs.VertSliderContainer.style.transform = `translateY(-${this.currSlide * 100}%)`;
+                    } else {
+                      this.currSlide--;
+                      console.log('else');
+                      $refs.VertSliderContainer.style.transform = `translateY(-${this.currSlide * 100}%)`;
+                      
+                    }
+                  },
+                  postIntervel: function(){
+                    this.timerInt = setInterval(() => {
+                    this.nextSlide();
+                  }, 10000);
+      }
+                }"
+                x-init="
+                  $refs.VertSlider.style.maxHeight = `${(thumbnailHeight * 4)}px`;
+                  postIntervel()
+                "
+              >
+                <div class="w-full h-full bg-black/60 p-8">
+                  <h3 class="text-xl mb-6 text-white font-bold">What's Hot</h3>
+                  <!-- NAVIGATION UP -->
+                  <div class="flex items-center justify-start mb-2">
+                    <button
+                      type="button"
+                      class="bg-[#1a1a1c] opacity-90 px-2 py-px outline-none transition-all hover:bg-[#4299e1] shadow-sm"
+                      @click.prevent="
+                        clearInterval(timerInt);
+                        postIntervel();
+                        prevSlide();
+                      "
+                    >
+                      <!-- Generated by IcoMoon.io -->
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        class="fill-white rotate-180"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="overflow-y-hidden">
+                    <div
+                      class="h-auto transition-all duration-500"
+                      x-ref="VertSliderContainer"
+                    >
+                      <ul class="flex flex-col" x-ref="VertSlider">
+                        <!-- THUMBNAIL -->
+                        <li
+                          class="flex justify-start items-start pb-6"
+                          x-ref="thumbnailHeight"
+                        >
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-1.jpg"
+                                alt="thumbnail-1"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >Few Facts About Streaming and Music Creation</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              April 29, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li class="flex justify-start items-start pb-6">
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-2.jpg"
+                                alt="thumbnail-2"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >The Real Reason Why Money Can’t Buy You
+                                Freedom</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              May 27, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li class="flex justify-start items-start pb-6">
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-3.jpg"
+                                alt="thumbnail-3"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >Hacking a Cheap $99 Camera to Do More Than It’s
+                                Worth</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              June 01, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li class="flex justify-start items-start pb-6">
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-4.jpg"
+                                alt="thumbnail-4"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >Physical Exercise to Boost Your Brain and
+                                Stamina</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              May 02, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li
+                          class="flex justify-start items-start pb-6"
+                          x-ref="thumbnailHeight"
+                        >
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-1.jpg"
+                                alt="thumbnail-1"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >Few Facts About Streaming and Music Creation</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              April 29, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li class="flex justify-start items-start pb-6">
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-2.jpg"
+                                alt="thumbnail-2"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >The Real Reason Why Money Can’t Buy You
+                                Freedom</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              May 27, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li class="flex justify-start items-start pb-6">
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-3.jpg"
+                                alt="thumbnail-3"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >Hacking a Cheap $99 Camera to Do More Than It’s
+                                Worth</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              June 01, 2019
+                            </div>
+                          </div>
+                        </li>
+                        <!-- THUMBNAIL -->
+                        <li class="flex justify-start items-start pb-6">
+                          <div class="w-20 mr-4">
+                            <a href="#" class="aspect-square">
+                              <img
+                                src="images/thumbnail-4.jpg"
+                                alt="thumbnail-4"
+                              />
+                            </a>
+                          </div>
+                          <div class="flex-1">
+                            <h3
+                              class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                            >
+                              <a href="#"
+                                >Physical Exercise to Boost Your Brain and
+                                Stamina</a
+                              >
+                            </h3>
+                            <div class="font-['roboto'] text-sm text-white/70">
+                              May 02, 2019
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- NAVIGATION BOTTOM -->
+                  <div class="flex items-center justify-start">
+                    <button
+                      type="button"
+                      class="bg-[#1a1a1c] opacity-90 px-2 py-px outline-none transition-all hover:bg-[#4299e1] shadow-sm"
+                      @click.prevent="
+                        clearInterval(timerInt);
+                        postIntervel();
+                        nextSlide()
+                      "
+                    >
+                      <!-- Generated by IcoMoon.io -->
+                      <svg
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        class="fill-white"
+                      >
+                        <title>chevron-down</title>
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- HERO SECTION END -->
+    <!-- POPULAR POST SECTION START -->
+    <section class="pt-10 lg:pt-14 bg-zinc-50">
+      <div class="container mx-auto px-6 lg:px-8 xl:px-14">
+        <!-- SECTION TITLE -->
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold mb-0">Popular Posts</h2>
+          <p class="mt-2 mb-0 font-['roboto'] text-black/40">
+            Don't miss to check out our most popular posts
+          </p>
+        </div>
+        <!-- SECTION CONTENT -->
+        <div
+          class="overflow-hidden"
+          x-data="{
+            init(){
+                     this.width <= 768 ? this.numberOfSlides = 1 :
+                     this.width > 768 && this.width <= 1024 ? this.numberOfSlides = 2 :
+                     this.numberOfSlides = 4;
+                     this.numberOfBullets = Math.ceil(this.numberOfitems / this.numberOfSlides);
+                    
+                     $nextTick(() => {
+                     Array.from($refs.pagination.children)[1].classList.add('bg-black/90');
+                     Array.from($refs.pagination.children)[1].classList.remove('bg-black/25');
+                    });
+                },
+            numberOfBullets: '',
+            numberOfitems: Array.from(document.querySelector('.slider').children).length,
+            width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            numberOfSlides: '',
+            touchstartX: 0,
+            touchstartY: 0,
+            touchendX: 0,
+            touchendY: 0,
+            currentSlide: 0,
+            swipperPaginationClass: function () {
+              Array.from($refs.pagination.children).forEach(el => {
+                      el.classList.remove('bg-black/90');
+                      el.classList.add('bg-black/25');
+                      if (el.id.substr(2) === $refs.sliderContainer.dataset.id) {
+                        el.classList.add('bg-black/90');
+                        el.classList.remove('bg-black/25');
+                      }
+                });
+            },
+            handleGesture: function(){
+              if (this.touchendX < this.touchstartX) {
+                if(this.currentSlide === this.numberOfBullets - 1) this.currentSlide = -1;
+                this.currentSlide++;
+                $refs.sliderContainer.dataset.id = this.currentSlide + 1;
+                $refs.sliderContainer.style.transform = `translateX(-${(this.currentSlide) * 100}%)`
+                this.swipperPaginationClass();
+              }
+              if (this.touchendX > this.touchstartX) {
+                if(this.currentSlide === 0) this.currentSlide = this.numberOfBullets;
+                $refs.sliderContainer.dataset.id = this.currentSlide;
+                this.currentSlide--;
+                $refs.sliderContainer.style.transform = `translateX(-${(this.currentSlide) * 100}%)`
+                this.swipperPaginationClass();
+              }
+            }    
+          }"
+        >
+          <!-- SLIDES PARENT CONTAINER -->
+
+          <!-- PASTE -->
+          <div
+            @mousedown.passive="
+              touchstartY = $event.screenY;
+              touchstartX = $event.screenX;
+            "
+            @touchstart.passive="
+              touchstartX = $event.changedTouches[0].screenX;
+              touchstartY = $event.changedTouches[0].screenY;
+            "
+            @mouseup.passive="
+              touchendX = $event.screenX;
+              touchendY = $event.screenY;
+              handleGesture();
+            "
+            @touchend.passive="
+              touchendX = $event.changedTouches[0].screenX;
+              touchendY = $event.changedTouches[0].screenY;
+              handleGesture();
+            "
+          >
+            <!-- SLIDES -->
+            <div
+              data-id="1"
+              class="flex slider transition-all duration-300 select-none"
+              x-ref="sliderContainer"
+            >
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide1.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide1"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Lifestyle
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        The Real Reason Why Money Can’t Buy You Freedom
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 02, 2019
+                      </span>
+                      <!-- STATS -->
+                      <span> 2.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide2.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide2"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Entertainment
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Few Facts About Streaming and Music Creation
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 12, 2020
+                      </span>
+                      <!-- STATS -->
+                      <span> 1.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide3.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide3"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Entertainment
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Hacking a Cheap $99 Camera to Do More Than It’s Worth
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 01, 2022
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide4.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide4"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Lifestyle
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Physical Exercise to Boost Your Brain and Stamina
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        June 22, 2019
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.1K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide1.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide1"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Lifestyle
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        The Real Reason Why Money Can’t Buy You Freedom
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 02, 2019
+                      </span>
+                      <!-- STATS -->
+                      <span> 2.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide3.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide3"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Entertainment
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Hacking a Cheap $99 Camera to Do More Than It’s Worth
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 01, 2022
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide4.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide4"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Lifestyle
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Physical Exercise to Boost Your Brain and Stamina
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        June 22, 2019
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.1K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide2.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide2"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Entertainment
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Few Facts About Streaming and Music Creation
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 12, 2020
+                      </span>
+                      <!-- STATS -->
+                      <span> 1.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide4.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide4"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Lifestyle
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Physical Exercise to Boost Your Brain and Stamina
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        June 22, 2019
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.1K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide3.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide3"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Entertainment
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Hacking a Cheap $99 Camera to Do More Than It’s Worth
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 01, 2022
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- SLIDE -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4 shrink-0">
+                <article class="bg-white flex flex-col relative h-full">
+                  <!-- THUMBNAIL -->
+                  <div class="relative aspect-video">
+                    <a href="#" class="absolute inset-0">
+                      <img
+                        src="images/slide3.jpg"
+                        class="h-full w-full object-cover"
+                        alt="slide3"
+                        loading="lazy"
+                      />
+                    </a>
+                  </div>
+                  <!-- SLIDE CONTENT -->
+                  <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                    <!-- CAPTION -->
+                    <div class="mb-2">
+                      <a
+                        href="#"
+                        class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                      >
+                        Entertainment
+                      </a>
+                    </div>
+                    <!-- HEADING -->
+                    <h3 class="text-2xl lg:text-lg mb-0">
+                      <a
+                        href="#"
+                        class="hover:text-black/60 font-bold leading-[0rem]"
+                      >
+                        Hacking a Cheap $99 Camera to Do More Than It’s Worth
+                      </a>
+                    </h3>
+                    <!-- META -->
+                    <div class="text-sm mt-3.5 text-black/50 font-['roboto']">
+                      <!-- DATE -->
+                      <span
+                        class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                      >
+                        May 01, 2022
+                      </span>
+                      <!-- STATS -->
+                      <span> 5.4K views </span>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+          <!-- SLIDE'S PAGINATION -->
+          <div class="flex justify-center items-center">
+            <div class="flex gap-x-2" x-ref="pagination">
+              <template x-for="i in numberOfBullets">
+                <span
+                  class="w-2 h-2 rounded-full bg-black/25 cursor-pointer"
+                  :id="$id('a')"
+                  @click="
+                    $refs.sliderContainer.style.transform = `translateX(-${(Array.from($el.parentElement.children).indexOf($el) - 1) * 100}%)`
+                    $refs.sliderContainer.dataset.id = +$el.id.substr(2);
+                    currentSlide = $refs.sliderContainer.dataset.id - 1;
+                    Array.from($el.parentElement.children).forEach(el => {
+                      el.classList.remove('bg-black/90');
+                      el.classList.add('bg-black/25');
+                    })
+                    
+                    $el.classList.remove('bg-black/25');
+                    $el.classList.add('bg-black/90');
+                  "
+                ></span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- POPULAR POST SECTION END -->
+    <!-- MAIN SECTION START -->
+    <main class="py-12 lg:py-16 bg-zinc-50">
+      <section class="container mx-auto px-6 lg:px-8 xl:px-14">
+        <div class="flex flex-row flex-wrap -mx-4 -mb-8">
+          <!-- MAIN CONTENT SECTION -->
+          <div class="w-full px-4 lg:w-2/3">
+            <div class="mb-8">
+              <!-- MAIN CONTENT POSTS -->
+              <div class="-mx-4">
+                <div class="flex flex-row flex-wrap -mb-8">
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-1.jpg"
+                            alt="main-post-1"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          >
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Lifestyle</a
+                            >
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >How I Became Strong After a Lifetime of Being
+                              Bullied</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 01, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Faints contribution fifty specified appearing
+                              copyright reveal side third. Supply contributors
+                              did incur but no…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-2.jpg"
+                            alt="main-post-2"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          >
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Few Facts About Streaming and Music Creation</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 12, 2021
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Move posts avoid perhaps. Spiders above see wish
+                              comments purposes. Lot reason around no by…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/slide1.jpg"
+                            alt="main-post-3"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >The Real Reason Why Money Can’t Buy You
+                              Freedom</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 12, 2021
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Move posts avoid perhaps. Spiders above see wish
+                              comments purposes. Lot reason around no by…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-4.jpg"
+                            alt="main-post-4"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Travel
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Australian Travel Advice: 10 Important Things To
+                              Know</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 22, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 1.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Help shouted touching causing posts is such
+                              specified incite adapt the audio had. Exceptional
+                              can’t…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-1.jpg"
+                            alt="main-post-3"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >The Real Reason Why Money Can’t Buy You
+                              Freedom</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 12, 2021
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Move posts avoid perhaps. Spiders above see wish
+                              comments purposes. Lot reason around no by…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-4.jpg"
+                            alt="main-post-4"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Travel
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Australian Travel Advice: 10 Important Things To
+                              Know</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 22, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 1.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Help shouted touching causing posts is such
+                              specified incite adapt the audio had. Exceptional
+                              can’t…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-4.jpg"
+                            alt="main-post-4"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Travel
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Australian Travel Advice: 10 Important Things To
+                              Know</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 22, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 1.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Help shouted touching causing posts is such
+                              specified incite adapt the audio had. Exceptional
+                              can’t…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/slide1.jpg"
+                            alt="main-post-3"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >The Real Reason Why Money Can’t Buy You
+                              Freedom</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 12, 2021
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Move posts avoid perhaps. Spiders above see wish
+                              comments purposes. Lot reason around no by…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- POST -->
+                  <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/2">
+                    <article class="bg-white flex flex-col relative h-full">
+                      <!-- THUMBNAIL -->
+                      <div class="relative aspect-video">
+                        <a href="#" class="block absolute inset-0">
+                          <img
+                            src="images/main-post-2.jpg"
+                            alt="main-post-3"
+                            class="h-full w-full object-cover"
+                            loading="lazy"
+                          />
+                        </a>
+                        <div class="absolute top-0 right-0 p-4 z-10">
+                          <!-- <span
+                            class="bg-[#4299e1] text-white text-xs rounded-full font-['roboto'] py-1 font-medium px-3"
+                            >Pinned</span
+                          > -->
+                        </div>
+                      </div>
+                      <!-- BODY -->
+                      <div class="flex-1 p-6 md:p-8 text-left lg:p-8">
+                        <div>
+                          <!-- CAPTION -->
+                          <div class="text-xs mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] font-bold font-['roboto'] hover:underline uppercase"
+                              >Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3
+                            class="text-2xl lg:text-2xl mb-0 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >The Real Reason Why Money Can’t Buy You
+                              Freedom</a
+                            >
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-4 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 12, 2021
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                          <!-- POST BODY -->
+                          <div class="mt-4">
+                            <p
+                              class="mb-0 font-['roboto'] text-black/60 leading-6"
+                            >
+                              Move posts avoid perhaps. Spiders above see wish
+                              comments purposes. Lot reason around no by…
+                            </p>
+                            <p class="mb-0 mt-4">
+                              <a
+                                href="#"
+                                class="font-['roboto'] text-sm font-bold hover:text-[#4299e1] uppercase"
+                                >Read more &rarr;</a
+                              >
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+              <!-- MAIN PAGINATION -->
+              <nav class="my-8">
+                <div class="flex justify-center items-center gap-x-3">
+                  <a
+                    href="#"
+                    class="inline-flex justify-center items-center text-white bg-[#4299e1] font-['roboto'] font-medium uppercase p-3 w-10 h-10 text-sm"
+                    >1</a
+                  >
+                  <a
+                    href="#"
+                    class="inline-flex justify-center items-center text-black/90 font-['roboto'] font-medium uppercase p-3 w-10 h-10 hover:text-[#4299e1] text-sm"
+                    >2</a
+                  >
+                  <a
+                    href="#"
+                    class="inline-flex justify-center items-center text-black/90 font-['roboto'] font-medium uppercase p-3 w-10 h-10 hover:text-[#4299e1] text-sm"
+                    >3</a
+                  >
+                  <a
+                    href="#"
+                    class="inline-flex justify-center items-center text-black/90 font-['roboto'] font-medium uppercase p-3 w-20 h-10 hover:text-[#4299e1] text-sm"
+                    >next &rarr;</a
+                  >
+                </div>
+              </nav>
+            </div>
+          </div>
+          <!-- SIDEBAR -->
+          <aside class="w-full lg:w-1/3 px-4">
+            <div
+              class="h-full flex flex-wrap flex-col md:flex-row lg:flex-col -mx-4"
+            >
+              <div class="w-full md:w-1/2 lg:w-full px-4 mb-8">
+                <div>
+                  <!-- SOCIAL LINKS -->
+                  <div class="bg-white p-6 md:p-8 mb-8 clearfix">
+                    <h3 class="font-bold text-xl mb-5">Social Links</h3>
+                    <ul class="flex flex-wrap -mr-3 -mb-3">
+                      <li class="w-1/5 mb-3">
+                        <a
+                          href="#"
+                          class="h-10 w-10 rounded-full flex items-center justify-center text-lg lg:h-12 lg:w-12 hover:opacity-75"
+                        >
+                          <img
+                            src="images/facebook-with-circle.svg"
+                            alt="FACEBOOK"
+                          />
+                        </a>
+                      </li>
+                      <li class="w-1/5 mb-3">
+                        <a
+                          href="#"
+                          class="h-10 w-10 rounded-full flex items-center justify-center text-lg lg:h-12 lg:w-12 hover:opacity-75"
+                        >
+                          <img
+                            src="images/twitter-with-circle.svg"
+                            alt="TWITTER"
+                          />
+                        </a>
+                      </li>
+                      <li class="w-1/5 mb-3">
+                        <a
+                          href="#"
+                          class="h-10 w-10 rounded-full flex items-center justify-center text-lg lg:h-12 lg:w-12 hover:opacity-75"
+                        >
+                          <img
+                            src="images/instagram-with-circle.svg"
+                            alt="INSTAGRAM"
+                          />
+                        </a>
+                      </li>
+                      <li class="w-1/5 mb-3">
+                        <a
+                          href="#"
+                          class="h-10 w-10 rounded-full flex items-center justify-center text-lg lg:h-12 lg:w-12 hover:opacity-75"
+                        >
+                          <img
+                            src="images/youtube-with-circle.svg"
+                            alt="YOUTUBE"
+                          />
+                        </a>
+                      </li>
+                      <li class="w-1/5 mb-3">
+                        <a
+                          href="#"
+                          class="h-10 w-10 rounded-full flex items-center justify-center text-lg lg:h-12 lg:w-12 hover:opacity-75"
+                        >
+                          <img
+                            src="images/linkedin-with-circle.svg"
+                            alt="LINKEDIN"
+                          />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- RECENT POSTS -->
+                  <div class="w-full h-full bg-white p-8">
+                    <h3 class="text-xl mb-6 font-bold">Recent Posts</h3>
+                    <ul>
+                      <!-- THUMBNAIL -->
+                      <li class="flex justify-start items-start mb-6">
+                        <div class="w-20 mr-4">
+                          <a href="#" class="aspect-square">
+                            <img
+                              src="images/thumbnail-1.jpg"
+                              alt="thumbnail-1"
+                            />
+                          </a>
+                        </div>
+                        <div class="flex-1">
+                          <h3
+                            class="text-base mb-2 leading-tight text-black/90 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Few Facts About Streaming and Music Creation</a
+                            >
+                          </h3>
+                          <div class="font-['roboto'] text-sm text-black/70">
+                            April 29, 2019
+                          </div>
+                        </div>
+                      </li>
+                      <!-- THUMBNAIL -->
+                      <li class="flex justify-start items-start mb-6">
+                        <div class="w-20 mr-4">
+                          <a href="#" class="aspect-square">
+                            <img
+                              src="images/thumbnail-2.jpg"
+                              alt="thumbnail-2"
+                            />
+                          </a>
+                        </div>
+                        <div class="flex-1">
+                          <h3
+                            class="text-base mb-2 leading-tight text-black/90 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >The Real Reason Why Money Can’t Buy You
+                              Freedom</a
+                            >
+                          </h3>
+                          <div class="font-['roboto'] text-sm text-black/70">
+                            May 27, 2019
+                          </div>
+                        </div>
+                      </li>
+                      <!-- THUMBNAIL -->
+                      <li class="flex justify-start items-start mb-6">
+                        <div class="w-20 mr-4">
+                          <a href="#" class="aspect-square">
+                            <img
+                              src="images/thumbnail-3.jpg"
+                              alt="thumbnail-3"
+                            />
+                          </a>
+                        </div>
+                        <div class="flex-1">
+                          <h3
+                            class="text-base mb-2 leading-tight text-black/90 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Hacking a Cheap $99 Camera to Do More Than It’s
+                              Worth</a
+                            >
+                          </h3>
+                          <div class="font-['roboto'] text-sm text-black/70">
+                            June 01, 2019
+                          </div>
+                        </div>
+                      </li>
+                      <!-- THUMBNAIL -->
+                      <li class="flex justify-start items-start">
+                        <div class="w-20 mr-4">
+                          <a href="#" class="aspect-square">
+                            <img
+                              src="images/thumbnail-4.jpg"
+                              alt="thumbnail-4"
+                            />
+                          </a>
+                        </div>
+                        <div class="flex-1">
+                          <h3
+                            class="text-base mb-2 leading-tight text-black/90 font-bold hover:opacity-75"
+                          >
+                            <a href="#"
+                              >Physical Exercise to Boost Your Brain and
+                              Stamina</a
+                            >
+                          </h3>
+                          <div class="font-['roboto'] text-sm text-black/70">
+                            May 02, 2019
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-1 w-full md:w-1/2 lg:w-full px-4 mb-8 relative">
+                <div
+                  class="sticky top-0"
+                  :class="headerSticky ? `top-24` : 'top-0'"
+                >
+                  <!-- NEWSLETTER -->
+                  <div class="bg-white p-6 md:p-8 mb-8 clearfix">
+                    <h3 class="font-bold text-xl mb-5">Newsletter</h3>
+                    <p class="font-['roboto'] mb-4">
+                      Subscribe to our newsletter and get our newest updates
+                      right on your inbox.
+                    </p>
+
+                    <form class="font-['roboto']">
+                      <input
+                        type="email"
+                        placeholder="Your email address"
+                        class="w-full opacity-60 py-2 px-4 border mb-4"
+                      />
+                      <span class="mb-4 block">
+                        <input
+                          type="checkbox"
+                          name="terms"
+                          id="checkbox"
+                          class="mr-2"
+                        />
+                        <a
+                          href="#"
+                          class="opacity-50 text-sm hover:text-[#4299e1] hover:underline"
+                          >I agree to the terms & conditions</a
+                        >
+                      </span>
+                      <div class="mb-4">
+                        <button
+                          type="submit"
+                          class="bg-[#4299e1] text-white uppercase text-sm w-full py-3 hover:opacity-70"
+                        >
+                          Subscribe
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- INSTAGRAM -->
+                  <div class="bg-white p-6 md:p-8 mb-8 clearfix">
+                    <h3 class="font-bold text-xl mb-5">Instagram</h3>
+                    <p class="mb-0">No data available.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <!-- MAIN SECTION END -->
+    <!-- EDITOR'S PICK SECTION START -->
+    <section class="border-t border-black/5 py-16 bg-zinc-50">
+      <div class="container mx-auto px-6 lg:px-8 xl:px-16">
+        <!-- SECTION TITLE -->
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold mb-0">Editor's Pick</h2>
+          <p class="mt-2 mb-0 font-['roboto'] text-black/40">
+            Explore these amazing posts curated by the team
+          </p>
+        </div>
+        <!-- SECTION CONTENT -->
+        <div>
+          <div class="-mx-4">
+            <!-- POSTS -->
+            <div class="flex flex-row flex-wrap -mb-8">
+              <!-- POST CARD -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4">
+                <article
+                  class="bg-black flex flex-col justify-end relative overflow-hidden h-full"
+                >
+                  <div
+                    class="pb-[66.6666666667%] relative z-20 pointer-events-none"
+                  ></div>
+                  <!-- POST IMAGE -->
+                  <div class="flex-1 absolute inset-0">
+                    <a href="#" class="block absolute inset-0">
+                      <img
+                        src="images/post1.jpg"
+                        alt="Post 1"
+                        class="h-full w-full object-cover"
+                      />
+                      <div
+                        class="bg-gradient-to-t from-black/60 to-black/10 absolute inset-0"
+                      ></div>
+                    </a>
+                  </div>
+                  <!-- POST BODY -->
+                  <div
+                    class="relative z-10 p-6 md:p-8 pointer-events-none text-left lg:p-6"
+                  >
+                    <div>
+                      <!-- CATEGORY -->
+                      <div
+                        class="text-white text-xs font-bold font-['roboto'] mb-2 pointer-events-auto hover:underline uppercase"
+                      >
+                        <a href="#">lifestyle </a>
+                      </div>
+                      <!-- HEADING -->
+                      <h3
+                        class="font-bold text-2xl !leading-5 lg:text-lg text-white mb-0 pointer-events-auto"
+                      >
+                        <a href="#"
+                          >The Real Reason Why Money Can’t Buy You Freedom</a
+                        >
+                      </h3>
+                      <!-- META -->
+                      <div
+                        class="text-sm mt-3 text-white/70 font-['roboto'] pointer-events-none"
+                      >
+                        <!-- DATE -->
+                        <span
+                          class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                        >
+                          May 02, 2019
+                        </span>
+                        <!-- STATS -->
+                        <span> 2.4K views </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- POST CARD -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4">
+                <article
+                  class="bg-black flex flex-col justify-end relative overflow-hidden h-full"
+                >
+                  <div
+                    class="pb-[66.6666666667%] relative z-20 pointer-events-none"
+                  ></div>
+                  <!-- POST IMAGE -->
+                  <div class="flex-1 absolute inset-0">
+                    <a href="#" class="block absolute inset-0">
+                      <img
+                        src="images/main-post-4.jpg"
+                        alt="Post 1"
+                        class="h-full w-full object-cover"
+                      />
+                      <div
+                        class="bg-gradient-to-t from-black/60 to-black/10 absolute inset-0"
+                      ></div>
+                    </a>
+                  </div>
+                  <!-- POST BODY -->
+                  <div
+                    class="relative z-10 p-6 md:p-8 pointer-events-none text-left lg:p-6"
+                  >
+                    <div>
+                      <!-- CATEGORY -->
+                      <div
+                        class="text-white text-xs font-bold font-['roboto'] mb-2 pointer-events-auto hover:underline uppercase"
+                      >
+                        <a href="#">Travel</a>
+                      </div>
+                      <!-- HEADING -->
+                      <h3
+                        class="font-bold text-2xl !leading-5 lg:text-lg text-white mb-0 pointer-events-auto"
+                      >
+                        <a href="#"
+                          >Australian Travel Advice: 10 Important Things To
+                          Know</a
+                        >
+                      </h3>
+                      <!-- META -->
+                      <div
+                        class="text-sm mt-3 text-white/70 font-['roboto'] pointer-events-none"
+                      >
+                        <!-- DATE -->
+                        <span
+                          class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                        >
+                          July 01, 2022
+                        </span>
+                        <!-- STATS -->
+                        <span> 5.4K views </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- POST CARD -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4">
+                <article
+                  class="bg-black flex flex-col justify-end relative overflow-hidden h-full"
+                >
+                  <div
+                    class="pb-[66.6666666667%] relative z-20 pointer-events-none"
+                  ></div>
+                  <!-- POST IMAGE -->
+                  <div class="flex-1 absolute inset-0">
+                    <a href="#" class="block absolute inset-0">
+                      <img
+                        src="images/post3.jpg"
+                        alt="Post 3"
+                        class="h-full w-full object-cover"
+                      />
+                      <div
+                        class="bg-gradient-to-t from-black/60 to-black/10 absolute inset-0"
+                      ></div>
+                    </a>
+                  </div>
+                  <!-- POST BODY -->
+                  <div
+                    class="relative z-10 p-6 md:p-8 pointer-events-none text-left lg:p-6"
+                  >
+                    <div>
+                      <!-- CATEGORY -->
+                      <div
+                        class="text-white text-xs font-bold font-['roboto'] mb-2 pointer-events-auto hover:underline uppercase"
+                      >
+                        <a href="#">lifestyle</a>
+                      </div>
+                      <!-- HEADING -->
+                      <h3
+                        class="font-bold text-2xl !leading-5 lg:text-lg text-white mb-0 pointer-events-auto"
+                      >
+                        <a href="#"
+                          >How to Unlock the Amazing Power of Your Brain</a
+                        >
+                      </h3>
+                      <!-- META -->
+                      <div
+                        class="text-sm mt-3 text-white/70 font-['roboto'] pointer-events-none"
+                      >
+                        <!-- DATE -->
+                        <span
+                          class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                        >
+                          December 21, 2021
+                        </span>
+                        <!-- STATS -->
+                        <span> 6.1K views </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- POST CARD -->
+              <div class="w-full h-auto px-4 mb-8 md:w-1/2 lg:w-1/4">
+                <article
+                  class="bg-black flex flex-col justify-end relative overflow-hidden h-full"
+                >
+                  <div
+                    class="pb-[66.6666666667%] relative z-20 pointer-events-none"
+                  ></div>
+                  <!-- POST IMAGE -->
+                  <div class="flex-1 absolute inset-0">
+                    <a href="#" class="block absolute inset-0">
+                      <img
+                        src="images/main-post-1.jpg"
+                        alt="Post 3"
+                        class="h-full w-full object-cover"
+                      />
+                      <div
+                        class="bg-gradient-to-t from-black/60 to-black/10 absolute inset-0"
+                      ></div>
+                    </a>
+                  </div>
+                  <!-- POST BODY -->
+                  <div
+                    class="relative z-10 p-6 md:p-8 pointer-events-none text-left lg:p-6"
+                  >
+                    <div>
+                      <!-- CATEGORY -->
+                      <div
+                        class="text-white text-xs font-bold font-['roboto'] mb-2 pointer-events-auto hover:underline uppercase"
+                      >
+                        <a href="#">lifestyle</a>
+                      </div>
+                      <!-- HEADING -->
+                      <h3
+                        class="font-bold text-2xl !leading-5 lg:text-lg text-white mb-0 pointer-events-auto"
+                      >
+                        <a href="#"
+                          >How I Became Strong After a Lifetime of Being
+                          Bullied</a
+                        >
+                      </h3>
+                      <!-- META -->
+                      <div
+                        class="text-sm mt-3 text-white/70 font-['roboto'] pointer-events-none"
+                      >
+                        <!-- DATE -->
+                        <span
+                          class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                        >
+                          January 01, 2021
+                        </span>
+                        <!-- STATS -->
+                        <span> 1.1K views </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+          <!-- VIEW MORE BUTTON -->
+          <nav class="text-center mt-8 lg:mt-10">
+            <a
+              href="#"
+              class="font-['roboto'] uppercase inline-block py-3 font-medium text-white bg-[#4299e1] px-8"
+              >View more posts</a
+            >
+          </nav>
+        </div>
+      </div>
+    </section>
+    <!-- EDITOR'S PICK SECTION END -->
+    <!-- FOOTER START -->
+    <footer class="bg-[#1a1a1c] relative z-10">
+      <!-- FOOTER PRIMARY -->
+      <div class="py-10 lg:py-16 clearfix">
+        <div class="container mx-auto px-6 lg:px-8 xl:px-14">
+          <div class="flex flex-wrap -mx-4 -mb-8">
+            <!-- FOOTER TITLE -->
+            <div
+              class="flex-auto px-4 md:w-1/2 lg:w-1/4 order-last lg:order-[inherit]"
+            >
+              <div class="mb-8 clearfix">
+                <div>
+                  <h1 class="font-bold text-white text-3xl mb-4">
+                    <a href="#">Stein</a>
+                  </h1>
+                  <p class="font-['roboto'] text-white/70">
+                    About text goes here, you can put a few lines that describe
+                    about your site to your visitors.
+                  </p>
+                  <ul class="mt-6 -mx-3 flex flex-row">
+                    <!-- FACEBOOK -->
+                    <li class="px-2">
+                      <a href="#">
+                        <svg
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          class="fill-white hover:fill-[#4299e1]"
+                          viewBox="0 0 20 20"
+                        >
+                          <title>facebook-with-circle</title>
+                          <path
+                            d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM12.274 7.034h-1.443c-0.171 0-0.361 0.225-0.361 0.524v1.042h1.805l-0.273 1.486h-1.532v4.461h-1.703v-4.461h-1.545v-1.486h1.545v-0.874c0-1.254 0.87-2.273 2.064-2.273h1.443v1.581z"
+                          ></path>
+                        </svg>
+                      </a>
+                    </li>
+                    <!-- TWITTER -->
+                    <li class="px-2">
+                      <a href="#">
+                        <svg
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          class="fill-white hover:fill-[#4299e1]"
+                          viewBox="0 0 20 20"
+                        >
+                          <title>twitter-with-circle</title>
+                          <path
+                            d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM13.905 8.264c0.004 0.082 0.005 0.164 0.005 0.244 0 2.5-1.901 5.381-5.379 5.381-1.068 0-2.062-0.312-2.898-0.85 0.147 0.018 0.298 0.025 0.451 0.025 0.886 0 1.701-0.301 2.348-0.809-0.827-0.016-1.525-0.562-1.766-1.312 0.115 0.021 0.233 0.033 0.355 0.033 0.172 0 0.34-0.023 0.498-0.066-0.865-0.174-1.517-0.938-1.517-1.854v-0.023c0.255 0.141 0.547 0.227 0.857 0.237-0.508-0.34-0.841-0.918-0.841-1.575 0-0.346 0.093-0.672 0.256-0.951 0.933 1.144 2.325 1.896 3.897 1.977-0.033-0.139-0.049-0.283-0.049-0.432 0-1.043 0.846-1.891 1.891-1.891 0.543 0 1.035 0.23 1.38 0.598 0.431-0.086 0.835-0.242 1.2-0.459-0.141 0.441-0.44 0.812-0.831 1.047 0.383-0.047 0.747-0.148 1.086-0.299-0.253 0.379-0.574 0.713-0.943 0.979z"
+                          ></path>
+                        </svg>
+                      </a>
+                    </li>
+                    <!-- INSTAGRAM -->
+                    <li class="px-2">
+                      <a href="#">
+                        <svg
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          class="fill-white hover:fill-[#4299e1]"
+                          viewBox="0 0 20 20"
+                        >
+                          <title>instagram-with-circle</title>
+                          <path
+                            d="M13 10c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-0.171 0.018-0.338 0.049-0.5h-1.049v3.997c0 0.278 0.225 0.503 0.503 0.503h6.995c0.277 0 0.502-0.225 0.502-0.503v-3.997h-1.049c0.031 0.162 0.049 0.329 0.049 0.5zM10 12c1.104 0 2-0.896 2-2s-0.896-2-2-2-2 0.896-2 2 0.896 2 2 2zM12.4 7.9h1.199c0.166 0 0.301-0.135 0.301-0.3v-1.199c0-0.166-0.135-0.301-0.301-0.301h-1.199c-0.166 0-0.301 0.135-0.301 0.301v1.199c0.001 0.165 0.136 0.3 0.301 0.3zM10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6c5.302 0 9.6-4.298 9.6-9.6s-4.298-9.6-9.6-9.6zM15 13.889c0 0.611-0.5 1.111-1.111 1.111h-7.778c-0.611 0-1.111-0.5-1.111-1.111v-7.778c0-0.611 0.5-1.111 1.111-1.111h7.778c0.611 0 1.111 0.5 1.111 1.111v7.778z"
+                          ></path>
+                        </svg>
+                      </a>
+                    </li>
+                    <!-- YOUTUBE -->
+                    <li class="px-2">
+                      <a href="#">
+                        <svg
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          class="fill-white hover:fill-[#4299e1]"
+                          viewBox="0 0 20 20"
+                        >
+                          <title>youtube-with-circle</title>
+                          <path
+                            d="M11.603 9.833l-2.246-1.048c-0.196-0.091-0.357 0.011-0.357 0.228v1.974c0 0.217 0.161 0.319 0.357 0.228l2.245-1.048c0.197-0.092 0.197-0.242 0.001-0.334zM10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM10 13.9c-4.914 0-5-0.443-5-3.9s0.086-3.9 5-3.9 5 0.443 5 3.9-0.086 3.9-5 3.9z"
+                          ></path>
+                        </svg>
+                      </a>
+                    </li>
+                    <!-- LINKEDIN -->
+                    <li class="pl-2">
+                      <a href="#">
+                        <svg
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          class="fill-white hover:fill-[#4299e1]"
+                          viewBox="0 0 20 20"
+                        >
+                          <title>linkedin-with-circle</title>
+                          <path
+                            d="M10 0.4c-5.302 0-9.6 4.298-9.6 9.6s4.298 9.6 9.6 9.6 9.6-4.298 9.6-9.6-4.298-9.6-9.6-9.6zM7.65 13.979h-1.944v-6.256h1.944v6.256zM6.666 6.955c-0.614 0-1.011-0.435-1.011-0.973 0-0.549 0.409-0.971 1.036-0.971s1.011 0.422 1.023 0.971c0 0.538-0.396 0.973-1.048 0.973zM14.75 13.979h-1.944v-3.467c0-0.807-0.282-1.355-0.985-1.355-0.537 0-0.856 0.371-0.997 0.728-0.052 0.127-0.065 0.307-0.065 0.486v3.607h-1.945v-4.26c0-0.781-0.025-1.434-0.051-1.996h1.689l0.089 0.869h0.039c0.256-0.408 0.883-1.010 1.932-1.010 1.279 0 2.238 0.857 2.238 2.699v3.699z"
+                          ></path>
+                        </svg>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- FOOTER RECENT POSTS -->
+            <div class="flex-auto px-4 md:w-1/2 lg:w-1/4">
+              <h3 class="text-xl mb-6 text-white font-bold">Recent Posts</h3>
+              <ul>
+                <!-- THUMBNAIL -->
+                <li class="flex justify-start items-start mb-6">
+                  <div class="w-20 mr-4">
+                    <a href="#" class="aspect-square">
+                      <img src="images/thumbnail-1.jpg" alt="thumbnail-1" />
+                    </a>
+                  </div>
+                  <div class="flex-1">
+                    <h3
+                      class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                    >
+                      <a href="#"
+                        >Few Facts About Streaming and Music Creation</a
+                      >
+                    </h3>
+                    <div class="font-['roboto'] text-sm text-white/70">
+                      April 29, 2019
+                    </div>
+                  </div>
+                </li>
+                <!-- THUMBNAIL -->
+                <li class="flex justify-start items-start mb-6">
+                  <div class="w-20 mr-4">
+                    <a href="#" class="aspect-square">
+                      <img src="images/thumbnail-2.jpg" alt="thumbnail-2" />
+                    </a>
+                  </div>
+                  <div class="flex-1">
+                    <h3
+                      class="text-base mb-2 leading-tight text-white font-bold hover:opacity-75"
+                    >
+                      <a href="#"
+                        >The Real Reason Why Money Can’t Buy You Freedom</a
+                      >
+                    </h3>
+                    <div class="font-['roboto'] text-sm text-white/70">
+                      May 27, 2019
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- FOOTER CHIPS -->
+            <div class="flex-auto px-4 md:w-1/2 lg:w-1/4">
+              <div class="mb-8 clearfix">
+                <h3 class="text-xl mb-5 font-bold text-white">Tags</h3>
+                <div class="flex flex-wrap -mb-2">
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Adventure</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Advice</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Creativity</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Habit</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Health</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Movie</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Music</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Podcast</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >Streaming</a
+                  >
+                  <a
+                    href="#"
+                    class="bg-[#2a2a2c] font-['roboto'] hover:opacity-75 font-medium mr-2 mb-2 inline-flex items-center text-white/70 rounded-full py-1 text-sm px-3.5"
+                    >World</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FOOTER SECONDARY -->
+      <div class="border-t border-white/5 py-6 md:py-8">
+        <div class="container mx-auto px-6 lg:px-8 xl:px-14 flex">
+          <p class="font-['roboto'] text-white/70 flex-1 text-sm">
+            © 2022 Stein. All rights reserved.
+          </p>
+          <nav class="flex-1 hidden ml-auto lg:block">
+            <ul class="list-reset flex justify-end font-['roboto']">
+              <li class="px-4 flex items-center">
+                <a href="#" class="text-sm text-white hover:text-[#4299e1]"
+                  >Disclaimer</a
+                >
+              </li>
+              <li class="px-4 flex items-center">
+                <a href="#" class="text-sm text-white hover:text-[#4299e1]"
+                  >Terms & Conditions
+                </a>
+              </li>
+              <li class="px-4 flex items-center">
+                <a href="#" class="text-sm text-white hover:text-[#4299e1]"
+                  >Privacy Policy
+                </a>
+              </li>
+              <li class="px-4 flex items-center">
+                <a href="#" class="text-sm text-white hover:text-[#4299e1]"
+                  >Community
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </footer>
+    <!-- FOOTER END -->
+    <!-- BACK TO TOP -->
+    <a
+      href="#"
+      class="fixed bottom-0 right-0 h-8 w-8 inline-flex items-center justify-center bg-[#4299e1] text-white hover:text-white text-lg leading-none shadow-lg rounded-full hover:no-underline transition-opacity duration-500 ease-in-out hover:opacity-75 mr-4 mb-4 lg:mr-6 lg:mb-6 z-50"
+    >
+      <svg
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        class="rotate-180 h-full w-full fill-white"
+      >
+        <title>chevron-down</title>
+        <path
+          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+        ></path>
+      </svg>
+    </a>
+  </body>
+</html>
