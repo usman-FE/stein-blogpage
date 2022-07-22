@@ -1631,7 +1631,7 @@
     </header>
     <!-- HEADER SECTION END -->
     <!-- MAIN SECTION START -->
-    <main class="py-12 lg:py-16 bg-zinc-50">
+    <main class="py-12 lg:py-16 bg-zinc-50 border-t border-solid">
       <section class="container mx-auto px-6 lg:px-8 xl:px-14">
         <div class="flex flex-row flex-wrap -mx-4 -mb-8">
           <!-- MAIN CONTENT SECTION -->
@@ -1685,9 +1685,9 @@
                   </div>
                 </div>
                 <!-- BLOG CONTENT -->
-                <div class="clearfix font-['roboto'] text-black/60">
+                <div class="font-['roboto'] text-black/60">
                   <p
-                    class="w-full max-w-2xl text-lg mx-auto mb-6 first-letter:float-left first-letter:mr-2 float-left first-letter:text-6xl first-letter:leading-none leading-8 first-letter:text-black/80"
+                    class="w-full text-lg mx-auto mb-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:leading-none leading-8 first-letter:text-black/80"
                   >
                     Help shouted touching causing posts is such specified incite
                     adapt audio had. Exceptional can’t stop warranty of also
@@ -1695,7 +1695,7 @@
                     13 damages. Usually, particular unacceptable desk media lot
                     swearing play didn’t bravely reveal.
                   </p>
-                  <p class="max-w-2xl w-full mx-auto mb-6">
+                  <p class="w-full mx-auto mb-6">
                     His followed carriage proposal entrance directly had
                     elegance. Greater for cottage red parties natural. Remaining
                     he furniture on he discourses perpetual. Power dried her
@@ -1713,7 +1713,7 @@
                     </p>
                     <cite class="text-sm text-black/40">Nelson Mandela</cite>
                   </blockquote>
-                  <p class="max-w-2xl w-full mx-auto mb-6">
+                  <p class="w-full mx-auto mb-6">
                     Be me shall purse my ought times. Joy years doors all would
                     again rooms these. Solicitude announcing as to sufficient
                     my. No my reached suppose proceed pressed perhaps he.
@@ -1726,14 +1726,14 @@
                   >
                     Broad Spacious Honey
                   </h2>
-                  <p class="max-w-2xl w-full mx-auto mb-6">
+                  <p class="w-full mx-auto mb-6">
                     Written enquire painful ye to offices forming it. Then so
                     does over sent dull on. Likewise offended humored Mrs fat
                     trifling answered. On ye position greatest so desirous. So
                     wound stood guest weeks no terms up ought. By so these are
                     so rapid blush songs begin.
                   </p>
-                  <p class="max-w-2xl w-full mx-auto mb-6">
+                  <p class="w-full mx-auto mb-6">
                     Entreaties unpleasant sufficient few pianofortes discovered
                     ask. Morning cousins amongst in weather do neither. Warmth
                     object matter course active law spring six. Showing unknown
@@ -1746,7 +1746,7 @@
                   >
                     Swelled Concisely in Roadrunner
                   </h2>
-                  <p class="max-w-2xl w-full mx-auto mb-6">
+                  <p class="w-full mx-auto mb-6">
                     Particular unaffected projection sentiments. Music marries
                     as at cause party worth weeks. Saw how Marianne graceful
                     dissuade new outlived prospect followed. Uneasy no
@@ -1768,7 +1768,7 @@
                       Rabbit far rhinoceros cuffed gosh connected.
                     </li>
                   </ul>
-                  <p class="max-w-2xl w-full mx-auto">
+                  <p class="w-full mx-auto">
                     Particular unaffected projection sentiments. Music marries
                     as at cause party worth weeks. Saw how Marianne graceful
                     dissuade new outlived prospect followed. Uneasy no
@@ -1949,7 +1949,7 @@
               </div>
             </div>
             <!-- AUTHOR BIO -->
-            <div class="md:flex bg-white p-6 md:p-8 lg:p-10 mb-8">
+            <section class="md:flex bg-white p-6 md:p-8 lg:p-10 mb-8">
               <div class="md:mr-6 mb-6 md:mb-0">
                 <a href="#" class="w-20 h-20 inline-block">
                   <img
@@ -2050,10 +2050,10 @@
                   </li>
                 </ul>
               </div>
-            </div>
+            </section>
 
             <!-- PREV POST -->
-            <div class="mb-0">
+            <section class="mb-0">
               <div class="flex flex-wrap -mx-4">
                 <div class="w-full md:w-1/2 px-4 mb-8">
                   <a href="#" class="block bg-white p-8">
@@ -2068,7 +2068,750 @@
                   </a>
                 </div>
               </div>
-            </div>
+            </section>
+
+            <!-- RELATED POSTS SECITON -->
+            <section class="bg-white p-6 md:p-8 mb-8">
+              <h2 class="font-bold text-xl mb-6">Related Posts</h2>
+              <!-- RELATED POSTS -->
+              <!-- SECTION CONTENT -->
+              <div
+                class="overflow-hidden"
+                x-data="{
+                  init(){
+                      this.width <= 768 ? this.numberOfSlides = 1 :
+                      this.width > 768 && this.width <= 1024 ? this.numberOfSlides = 2 :
+                      this.numberOfSlides = 3;
+                      this.numberOfBullets = Math.ceil(this.numberOfitems / this.numberOfSlides);
+
+                  },
+                  numberOfBullets: '',
+                  numberOfitems: Array.from(document.querySelector('.slider').children).length,
+                  width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                  numberOfSlides: '',
+                  touchstartX: 0,
+                  touchstartY: 0,
+                  touchendX: 0,
+                  touchendY: 0,
+                  currentSlide: 0,
+                  handleGesture: function(){
+                    if (this.touchendX < this.touchstartX) {
+                      if(this.currentSlide === this.numberOfBullets - 1) this.currentSlide = -1;
+                      this.currentSlide++;
+                      $refs.sliderContainer.dataset.id = this.currentSlide + 1;
+                      $refs.sliderContainer.style.transform = `translateX(-${(this.currentSlide) * 100}%)`
+                    }
+                    if (this.touchendX > this.touchstartX) {
+                      if(this.currentSlide === 0) this.currentSlide = this.numberOfBullets;
+                      $refs.sliderContainer.dataset.id = this.currentSlide;
+                      this.currentSlide--;
+                      $refs.sliderContainer.style.transform = `translateX(-${(this.currentSlide) * 100}%)`
+                    }
+                  }    
+                }"
+              >
+                <!-- SLIDES PARENT CONTAINER -->
+                <div
+                  @mousedown.passive="
+                    touchstartY = $event.screenY;
+                    touchstartX = $event.screenX;
+                  "
+                  @touchstart.passive="
+                    touchstartX = $event.changedTouches[0].screenX;
+                    touchstartY = $event.changedTouches[0].screenY;
+                  "
+                  @mouseup.passive="
+                    touchendX = $event.screenX;
+                    touchendY = $event.screenY;
+                    handleGesture();
+                  "
+                  @touchend.passive="
+                    touchendX = $event.changedTouches[0].screenX;
+                    touchendY = $event.changedTouches[0].screenY;
+                    handleGesture();
+                  "
+                >
+                  <!-- SLIDES -->
+                  <div
+                    data-id="1"
+                    class="flex slider transition-all duration-300 select-none"
+                    x-ref="sliderContainer"
+                  >
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide1.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide1"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              The Real Reason Why Money Can’t Buy You Freedom
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 02, 2019
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide2.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide2"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Few Facts About Streaming and Music Creation
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 12, 2020
+                            </span>
+                            <!-- STATS -->
+                            <span> 1.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide3.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide3"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Hacking a Cheap $99 Camera to Do More Than It’s
+                              Worth
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 01, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide4.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide4"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Physical Exercise to Boost Your Brain and Stamina
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 22, 2019
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.1K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide1.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide1"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              The Real Reason Why Money Can’t Buy You Freedom
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 02, 2019
+                            </span>
+                            <!-- STATS -->
+                            <span> 2.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide3.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide3"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Hacking a Cheap $99 Camera to Do More Than It’s
+                              Worth
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 01, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide4.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide4"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Physical Exercise to Boost Your Brain and Stamina
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 22, 2019
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.1K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide2.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide2"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Few Facts About Streaming and Music Creation
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 12, 2020
+                            </span>
+                            <!-- STATS -->
+                            <span> 1.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide4.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide4"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Lifestyle
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Physical Exercise to Boost Your Brain and Stamina
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              June 22, 2019
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.1K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide3.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide3"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Hacking a Cheap $99 Camera to Do More Than It’s
+                              Worth
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 01, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                    <!-- SLIDE -->
+                    <div
+                      class="w-full h-auto px-4 mb-8 :w-1/2 xl:w-1/3 shrink-0"
+                    >
+                      <article class="bg-white flex flex-col relative h-full">
+                        <!-- THUMBNAIL -->
+                        <div class="relative aspect-video">
+                          <a href="#" class="absolute inset-0">
+                            <img
+                              src="images/slide3.jpg"
+                              class="h-full w-full object-cover"
+                              alt="slide3"
+                              loading="lazy"
+                            />
+                          </a>
+                        </div>
+                        <!-- SLIDE CONTENT -->
+                        <div class="flex-1 p-6 md:p-8 text-left lg:p-6">
+                          <!-- CAPTION -->
+                          <div class="mb-2">
+                            <a
+                              href="#"
+                              class="text-[#4299e1] hover:underline uppercase font-['roboto'] text-xs font-medium tracking-wide"
+                            >
+                              Entertainment
+                            </a>
+                          </div>
+                          <!-- HEADING -->
+                          <h3 class="text-2xl lg:text-lg mb-0">
+                            <a
+                              href="#"
+                              class="hover:text-black/60 font-bold leading-[0rem]"
+                            >
+                              Hacking a Cheap $99 Camera to Do More Than It’s
+                              Worth
+                            </a>
+                          </h3>
+                          <!-- META -->
+                          <div
+                            class="text-sm mt-3.5 text-black/50 font-['roboto']"
+                          >
+                            <!-- DATE -->
+                            <span
+                              class="after:mx-2 after:inline-block after:h-1 after:w-1 after:bg-black/50 after:rounded-full after:top-1/2 after:-translate-y-1/2"
+                            >
+                              May 01, 2022
+                            </span>
+                            <!-- STATS -->
+                            <span> 5.4K views </span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- COMMENT SECTION -->
+            <section class="bg-white p-6 md:p-8 mb-8">
+              <div>
+                <h3 class="font-bold text-xl mb-2">Leave a comment</h3>
+                <form>
+                  <p class="font-['roboto'] mb-6 text-black/60">
+                    Your email address will not be published. Required fields
+                    are marked *
+                  </p>
+                  <!-- COMMENT -->
+                  <div class="my-6">
+                    <label for="comment" class="absolute invisible opacity-0"
+                      >Comment</label
+                    >
+                    <textarea
+                      id="comment"
+                      class="bg-white border px-4 w-full py-2 block outline-none font-['roboto'] text-black/60"
+                      name="comment"
+                      placeholder="Type your comment…"
+                      rows="4"
+                      maxlength="65525"
+                      required="required"
+                    ></textarea>
+                  </div>
+                  <!-- FORM DATA -->
+                  <div class="flex flex-wrap -mx-3">
+                    <!-- NAME -->
+                    <div class="w-full md:w-1/3 px-3 mb-6">
+                      <label for="author" class="absolute invisible opacity-0"
+                        >Name</label
+                      >
+                      <input
+                        id="author"
+                        class="bg-white border px-4 w-full py-2 block outline-none font-['roboto'] text-black/60"
+                        name="author"
+                        type="text"
+                        placeholder="Name *"
+                        required
+                      />
+                    </div>
+                    <!-- Email -->
+                    <div class="w-full md:w-1/3 px-3 mb-6">
+                      <label for="email" class="absolute invisible opacity-0"
+                        >Email</label
+                      >
+                      <input
+                        id="email"
+                        class="bg-white border px-4 w-full py-2 block outline-none font-['roboto'] text-black/60"
+                        name="email"
+                        type="text"
+                        placeholder="Email *"
+                        required
+                      />
+                    </div>
+                    <!-- Website -->
+                    <div class="w-full md:w-1/3 px-3 mb-6">
+                      <label for="website" class="absolute invisible opacity-0"
+                        >Website</label
+                      >
+                      <input
+                        id="website"
+                        class="bg-white border px-4 w-full py-2 block outline-none font-['roboto'] text-black/60"
+                        name="website"
+                        type="text"
+                        placeholder="Website *"
+                      />
+                    </div>
+                  </div>
+                  <!-- FORM CHECKBOX -->
+                  <div class="mb-2 font-['roboto'] text-black/60">
+                    <label for="consent" class="">
+                      <input
+                        type="checkbox"
+                        class="mr-2"
+                        name="consent"
+                        id="consent"
+                        value="yes"
+                      />
+                      Save my name, email, and website in this browser for the
+                      next time I comment.
+                    </label>
+                  </div>
+                  <!-- FORM SUBMIT -->
+                  <div class="mt-6 mb-0">
+                    <button
+                      type="submit"
+                      class="font-['roboto'] text-white bg-[#4299e1] uppercase tracking-wide px-6 py-3 text-sm font-medium border-none outline-none hover:opacity-75"
+                    >
+                      Post Comment
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
           </div>
           <!-- SIDEBAR -->
           <aside class="w-full lg:w-1/3 px-4">
